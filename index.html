@@ -139,6 +139,26 @@ body {
   letter-spacing: -0.5px;
 }
 
+/* ----- Header Icon Links ----- */
+.header-right a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px; height: 36px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 1.25rem;
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  border: 1px solid transparent;
+}
+.header-right a:hover {
+  color: var(--accent-primary);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+  transform: translateY(-1px);
+}
+
 .theme-toggle {
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
@@ -521,6 +541,9 @@ body {
         </a>
       </div>
       <div class="header-right">
+        <a href="https://x.com/kalaspace002" target="_blank" title="X.COM"><i class="ri-twitter-x-line"></i></a>
+        <a href="https://github.com/qwerasdzx-123" target="_blank" title="GitHub"><i class="ri-github-line"></i></a>
+        <a href="https://blog.kalaspace.dpdns.org/" target="_blank" title="Blog (Cloudflare)"><i class="ri-cloud-line"></i></a>
         <button class="theme-toggle" id="themeToggle" title="切换主题">&#9790;</button>
       </div>
     </div>
