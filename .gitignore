@@ -1,0 +1,10 @@
+node_modules/
+.dev.vars
+.wrangler/
+*_backup_*.html
+gen_*.py
+fetch_meta*.py
+tooltips_*.json
+bookmarks_parsed.json
+书签归类*.html
+test_*.html
