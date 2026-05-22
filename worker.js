@@ -166,7 +166,7 @@ async function syncToGitHub(env, content) {
       'User-Agent': 'KalaSpace-Bot'
     }
   });
-  const getData = await getRes.json() as { sha };
+  const getData = await getRes.json();
   const sha = getData.sha;
 
   // Update file
@@ -184,12 +184,12 @@ async function syncToGitHub(env, content) {
       branch: 'main'
     })
   });
-  const putData = await putRes.json() as { commit: { sha } };
+  const putData = await putRes.json();
   return putData.commit.sha;
 }
 
 function parseChromeBookmarks(html) {
-  const result: { name; url; domain }[] = [];
+  const result = [];
 
   // Match all <A> tags with HREF
   const linkRegex = /<DT><A[^>]*HREF="([^"]*)"[^>]*>([^<]*)<\/A>/gi;
@@ -206,7 +206,7 @@ function parseChromeBookmarks(html) {
 }
 
 function parseChromeFolders(html) {
-  const folders: { name; bookmarks: { name; url; domain }[] }[] = [];
+  const folders = [];
 
   // Match folder structure: <DT><H3>name</H3><DL>...links...</DL>
   const folderRegex = /<DT><H3[^>]*>([^<]*)<\/H3>\s*<DL><p>([\s\S]*?)<\/DL><p>/gi;
@@ -241,7 +241,7 @@ function parseCurrentIndexHtml(html) {
     const catIcon = iconMatch ? iconMatch[1] : 'ri-star-line';
 
     // Parse sub-sections
-    const subs: { id; name; bookmarks: { id; name; url; domain }[] }[] = [];
+    const subs = [];
     const subRegex = /<div class="sub-section" id="section-\d+-([^"]*)"[^>]*>[\s\S]*?<\/div>\s*<\/div>/gi;
     let subMatch;
 
@@ -253,7 +253,7 @@ function parseCurrentIndexHtml(html) {
       const subName = subNameMatch ? subNameMatch[1] : subId;
 
       // Parse bookmark cards
-      const bookmarks: { id; name; url; domain }[] = [];
+      const bookmarks = [];
       const cardRegex = /<a class="bookmark-card"[^>]*href="([^"]*)"[^>]*>[\s\S]*?<div class="bookmark-name">([^<]*)<\/div>[\s\S]*?<\/a>/gi;
       let cardMatch;
 
@@ -455,7 +455,7 @@ async function handleApi(request, env) {
         if (!token || !await verifyToken(token, env.AUTH_SECRET)) {
           return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json', ...corsHeaders } });
         }
-        const { ids } = body as { ids: string[] };
+        const { ids } = body;
         const data = await getData(env.BOOKMARKS_KV);
         const idSet = new Set(ids);
         let count = 0;
@@ -564,18 +564,18 @@ async function handleApi(request, env) {
           const cat = data.categories.find(c => c.id === categoryId);
           const sub = cat?.subCategories.find(s => s.id === subCategoryId);
           if (sub) {
-            const newOrder = items.map((i: { id }) => sub.bookmarks.find(b => b.id === i.id)).filter(Boolean);
+            const newOrder = items.map((i) => sub.bookmarks.find(b => b.id === i.id)).filter(Boolean);
             sub.bookmarks = newOrder;
           }
         } else if (type === 'subcategory') {
           const { categoryId } = body;
           const cat = data.categories.find(c => c.id === categoryId);
           if (cat) {
-            const newOrder = items.map((i: { id }) => cat.subCategories.find(s => s.id === i.id)).filter(Boolean);
+            const newOrder = items.map((i) => cat.subCategories.find(s => s.id === i.id)).filter(Boolean);
             cat.subCategories = newOrder;
           }
         } else if (type === 'category') {
-          const newOrder = items.map((i: { id }) => data.categories.find(c => c.id === i.id)).filter(Boolean);
+          const newOrder = items.map((i) => data.categories.find(c => c.id === i.id)).filter(Boolean);
           data.categories = newOrder;
         }
 
