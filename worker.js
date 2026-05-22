@@ -673,8 +673,12 @@ export default {
 
     // Serve config.html (management dashboard)
     if (url.pathname === '/config.html') {
-      const html = atob(CONFIG_HTML_BASE64);
-      return new Response(html, {
+      const binStr = atob(CONFIG_HTML_BASE64);
+      const bytes = new Uint8Array(binStr.length);
+      for (let i = 0; i < binStr.length; i++) {
+        bytes[i] = binStr.charCodeAt(i);
+      }
+      return new Response(bytes, {
         headers: { 'Content-Type': 'text/html; charset=utf-8' }
       });
     }
