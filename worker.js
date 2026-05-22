@@ -60,7 +60,7 @@ async function verifyToken(token, secret) {
   }
 }
 
-function getTokenFromRequest(req: Request) | null {
+function getTokenFromRequest(req) {
   const cookie = req.headers.get('Cookie') || '';
   const match = cookie.match(/kalaspace_token=([^;]+)/);
   return match ? match[1] : null;
