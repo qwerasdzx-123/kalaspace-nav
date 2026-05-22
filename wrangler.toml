@@ -1,0 +1,13 @@
+name = "kalaspace-nav"
+main = "worker.js"
+compatibility_date = "2024-09-23"
+
+# KV namespace binding — uncomment and set your KV namespace ID
+# [[kv_namespaces]]
+# binding = "BOOKMARKS_KV"
+# id = "YOUR_KV_NAMESPACE_ID"
+
+# Environment variables — set in Cloudflare Dashboard or uncomment below
+# GITHUB_REPO = "qwerasdzx-123/kalaspace-nav"
+# AUTH_SECRET = "your-admin-password" (or use `wrangler secret put AUTH_SECRET`)
+# GITHUB_TOKEN = "ghp_xxxx" (use `wrangler secret put GITHUB_TOKEN`)
