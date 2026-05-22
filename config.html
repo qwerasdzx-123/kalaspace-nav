@@ -395,6 +395,7 @@ input, textarea, select { font-family: inherit; }
         <i class="ri-search-line"></i>
         <input type="text" id="searchInput" placeholder="搜索书签..." oninput="doSearch()">
       </div>
+      <button class="btn" onclick="doReimport()" title="从GitHub重新解析index.html"><i class="ri-git-repository-line"></i> 同步书签</button>
       <button class="btn" onclick="openImportModal()"><i class="ri-upload-2-line"></i> 导入</button>
       <button class="btn" onclick="doExport('html')"><i class="ri-download-line"></i> 导出HTML</button>
       <button class="btn" onclick="doExport('json')"><i class="ri-code-s-slash-line"></i> 导出JSON</button>
@@ -1066,6 +1067,22 @@ async function doExport(format) {
     a.click();
     URL.revokeObjectURL(url);
     toast('导出成功', 'success');
+  } catch (e) {
+    toast('网络错误: ' + e.message, 'error');
+  }
+}
+
+// ===== Reimport from GitHub =====
+async function doReimport() {
+  if (!confirm('从 GitHub 重新解析 index.html 并导入书签？当前书签数据将被覆盖！')) return;
+  toast('正在从 GitHub 获取书签...', 'info');
+  try {
+    const res = await postAPI({ action: 'reimport' });
+    if (res.success) {
+      toast('成功导入 ' + res.count + ' 个书签！刷新查看', 'success');
+    } else {
+      toast('导入失败: ' + (res.error || '未知错误'), 'error');
+    }
   } catch (e) {
     toast('网络错误: ' + e.message, 'error');
   }
