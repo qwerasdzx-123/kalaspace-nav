@@ -2,10 +2,10 @@ name = "kalaspace-nav"
 main = "worker.js"
 compatibility_date = "2024-09-23"
 
-# KV namespace binding — uncomment and set your KV namespace ID
-# [[kv_namespaces]]
-# binding = "BOOKMARKS_KV"
-# id = "YOUR_KV_NAMESPACE_ID"
+# KV namespace binding
+[[kv_namespaces]]
+binding = "BOOKMARKS_KV"
+id = "4bd0999f83274f5c8ceef63042c015ba"
 
 # Environment variables — set in Cloudflare Dashboard or uncomment below
 # GITHUB_REPO = "qwerasdzx-123/kalaspace-nav"
