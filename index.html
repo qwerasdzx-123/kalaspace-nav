@@ -172,6 +172,81 @@ body {
 }
 .theme-toggle:hover { color: var(--accent-primary); border-color: var(--accent-primary); transform: rotate(15deg); }
 
+/* ----- Header Nav Links ----- */
+.header-nav { display: flex; align-items: center; gap: 4px; margin-right: 6px; }
+.header-nav a {
+  display: flex; align-items: center; gap: 5px;
+  padding: 5px 10px;
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all var(--transition-fast);
+  white-space: nowrap;
+}
+.header-nav a:hover {
+  color: var(--accent-primary);
+  background: var(--accent-bg);
+  border-color: var(--accent-border);
+}
+.header-nav a i { font-size: 0.95rem; }
+
+/* ----- About Modal ----- */
+.modal-overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  z-index: 9999;
+  align-items: center; justify-content: center;
+}
+.modal-overlay.show { display: flex; }
+.modal-box {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
+  padding: 28px 32px;
+  max-width: 540px; width: 90%;
+  max-height: 80vh; overflow-y: auto;
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+.modal-close {
+  position: absolute; top: 14px; right: 16px;
+  background: none; border: none;
+  color: var(--text-secondary); font-size: 1.3rem;
+  cursor: pointer; padding: 4px; line-height: 1;
+  transition: color var(--transition-fast);
+}
+.modal-close:hover { color: var(--accent-primary); }
+.modal-title {
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--accent-primary);
+  margin-bottom: 16px;
+  font-family: var(--font-mono);
+}
+.modal-section { margin-bottom: 14px; }
+.modal-section h4 { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+.modal-section p { font-size: 0.9rem; color: var(--text-primary); line-height: 1.6; }
+.modal-stats { display: flex; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+.modal-stat {
+  background: var(--bg-tertiary); border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm); padding: 8px 14px;
+  text-align: center; min-width: 80px;
+}
+.modal-stat .num { font-size: 1.3rem; font-weight: 700; color: var(--accent-primary); font-family: var(--font-mono); }
+.modal-stat .label { font-size: 0.72rem; color: var(--text-secondary); margin-top: 2px; }
+.modal-links { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+.modal-links a {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 12px;
+  background: var(--accent-bg); border: 1px solid var(--accent-border);
+  border-radius: var(--radius-sm);
+  color: var(--accent-primary); font-size: 0.85rem;
+  text-decoration: none; transition: all var(--transition-fast);
+}
+.modal-links a:hover { background: var(--accent-primary); color: #000; }
+
 /* ----- Search ----- */
 .search-box {
   max-width: 1600px;
@@ -541,6 +616,10 @@ body {
         </a>
       </div>
       <div class="header-right">
+        <div class="header-nav">
+          <a href="#" id="aboutBtn"><i class="ri-information-line"></i>关于本站</a>
+          <a href="https://twitter.com/kalaspace002" target="_blank"><i class="ri-feedback-line"></i>提出建议</a>
+        </div>
         <a href="https://x.com/kalaspace002" target="_blank" title="X.COM"><i class="ri-twitter-x-line"></i></a>
         <a href="https://github.com/qwerasdzx-123" target="_blank" title="GitHub"><i class="ri-github-line"></i></a>
         <a href="https://blog.kalaspace.dpdns.org/" target="_blank" title="Blog (Cloudflare)"><i class="ri-cloud-line"></i></a>
@@ -4389,6 +4468,60 @@ body {
     });
   });
 
+  // About modal
+  const aboutBtn = document.getElementById('aboutBtn');
+  const aboutModal = document.getElementById('aboutModal');
+  const modalClose = document.getElementById('modalClose');
+  if (aboutBtn && aboutModal) {
+    aboutBtn.addEventListener('click', (e) => {
+      e.preventDefault();
+      // Dynamic stats from rendered DOM
+      const catCount = document.querySelectorAll('.group-item').length;
+      const bmCount = document.querySelectorAll('.bm-item').length;
+      document.getElementById('statCats').textContent = catCount || '-';
+      document.getElementById('statBms').textContent = bmCount || '-';
+      aboutModal.classList.add('show');
+    });
+    modalClose.addEventListener('click', () => aboutModal.classList.remove('show'));
+    aboutModal.addEventListener('click', (e) => { if (e.target === aboutModal) aboutModal.classList.remove('show'); });
+  }
+
   </script>
+
+  <!-- About Modal -->
+  <div class="modal-overlay" id="aboutModal">
+    <div class="modal-box">
+      <button class="modal-close" id="modalClose">&times;</button>
+      <div class="modal-title">🔒 KalaSpace - 安全导航</div>
+
+      <div class="modal-section">
+        <h4>建站目的</h4>
+        <p>KalaSpace 是一个个人维护的安全导航站，专注于为网络安全从业者、CTF 选手、技术爱好者整理常用工具、资源和链接。界面采用极客风格设计，支持明暗主题，方便在各种环境下使用。</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>数据统计</h4>
+        <div class="modal-stats">
+          <div class="modal-stat"><div class="num" id="statCats">-</div><div class="label">分类</div></div>
+          <div class="modal-stat"><div class="num" id="statBms">-</div><div class="label">书签</div></div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <h4>主要功能</h4>
+        <p>🔍 实时搜索 · 📂 多级分类 · 🌙 明暗主题 · 🔗 一键复制链接 · 📱 适配移动端</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>提出建议 / 投稿</h4>
+        <p>如果你有好玩、好用的网址想要加入导航，或者有任何建议，欢迎通过以下方式联系：</p>
+        <div class="modal-links">
+          <a href="https://twitter.com/kalaspace002" target="_blank"><i class="ri-twitter-x-line"></i>Twitter / X</a>
+          <a href="https://github.com/qwerasdzx-123" target="_blank"><i class="ri-github-line"></i>GitHub</a>
+          <a href="https://blog.kalaspace.dpdns.org/" target="_blank"><i class="ri-cloud-line"></i>Blog</a>
+        </div>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
