@@ -8,3 +8,5 @@ tooltips_*.json
 bookmarks_parsed.json
 书签归类*.html
 test_*.html
+# 管理后台 - 不提交到 GitHub（已通过 base64 嵌入 worker.js 部署）
+config.html
